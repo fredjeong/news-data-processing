@@ -5,7 +5,6 @@
 ```bash
 brew install postgresql@16
 
-# pgvector는?
 echo 'export POSTGRESQL_HOME=/opt/homebrew/opt/postgresql@16' >> ~/.zshrc
 echo 'export PATH=$POSTGRESQL_HOME/bin:$PATH' >> ~/.zshrc
 source ~/.zshrc
