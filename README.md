@@ -5,6 +5,7 @@
 ```
 .
 ├── __init__.py
+├── architecture.txt
 ├── config.py
 ├── extract
 │   ├── kafka_producer.py
@@ -17,15 +18,17 @@
 │   ├── flink-install.md
 │   ├── java-install.md
 │   ├── kafka-install.md
+│   ├── ollama-install.md
 │   ├── postgresql-install.md
 │   └── spark-install.md
 ├── README.md
 ├── requirements.txt
-└── transform_load
-    ├── flink.py
-    ├── test.py
-    ├── utils_pipeline.py
-    └── utils_preprocessing.py
+└── transform-and-load
+    ├── flink.py
+    ├── utils_pipeline.py
+    └── utils_preprocessing.py
+
+4 directories, 20 files
  ```
 
 ### 0. 최종 목표
