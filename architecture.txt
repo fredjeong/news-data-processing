@@ -1,0 +1,23 @@
+.
+├── __init__.py
+├── config.py
+├── extract
+│   ├── kafka_producer.py
+│   ├── main.py
+│   ├── rss_reader.py
+│   └── selenium_crawler.py
+├── flink-sql-connector-kafka-3.3.0-1.20.jar
+├── install-guide
+│   ├── docker-install.md
+│   ├── flink-install.md
+│   ├── java-install.md
+│   ├── kafka-install.md
+│   ├── postgresql-install.md
+│   └── spark-install.md
+├── README.md
+├── requirements.txt
+└── transform_load
+    ├── flink.py
+    ├── test.py
+    ├── utils_pipeline.py
+    └── utils_preprocessing.py
