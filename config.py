@@ -3,6 +3,7 @@ import os
 
 load_dotenv()
 
+# .env 파일로 관리
 USERID = os.environ.get('POSTGRESQL_USERID')
 PASSWORD = os.environ.get('POSTGRESQL_PASSWORD')
 
