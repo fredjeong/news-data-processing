@@ -45,11 +45,11 @@ def transform_extract_keywords(text):
             'role': 'system',
             'content': """You are the greatest journalist the world has ever seen. \
                     Your task now is to extract keywords from a news article. \
-                    When given text, extract five keywords that represent the content the best. \
-                    Make sure you do not give any numbering in the list. \
+                    When given text, extract five keywords that best represent the article. \
+                    
+                    Your answer should follow a certain format. \
                     For example, if the top five keywords are apple, banana, kiwi, pineapple, mango, \
-                    your output is supposed to be apple, banana, kiwi, pineapple, mango, \
-                    not something like 1. apple, 2. banana, 3. kiwi, 4. pineapple, 5. mango. \
+                    your output must be 'apple, banana, kiwi, pineapple, mango'. \
                     Double check your answer before you give the output and see if you followed this instruction.
                     """
         },

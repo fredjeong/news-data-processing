@@ -55,7 +55,7 @@ def add_to_db(data):
     embedding = data['embedding']
 
     query = f"""
-        INSERT INTO {DB_CONFIG['table_name']} (title, writer, write_date, category, content, url, keywords, embedding)
+        INSERT INTO {DB_CONFIG['tablename']} (title, writer, write_date, category, content, url, keywords, embedding)
         VALUES ('{title}', '{writer}', '{write_date}', '{category}', '{content}', '{url}', '{keywords}', vector({embedding}))
         ON CONFLICT (url) DO NOTHING;
         """
