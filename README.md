@@ -89,12 +89,15 @@ python3 ./extract/main.py
 
 - Kafka로부터 전송된 뉴스 데이터를 Flink에서 소비(consume)하고, 이를 전처리하여 PostgreSQL에 저장하는 실시간 데이터 처리 환경 구성
 
-#### 단계
+  1. Kafka에서 메시지 수신 (`FlinkKafkaConsumer`)
+  2. 수신된 뉴스 본문(`content`)을 기반으로 전처리 수행
+    - 키워드 추출: 오픈소스 모델 `gemma3:27b`를 이용해 본문에서 핵심 키워드 5개 추출
+    - 벡터 임베딩: Huggingface의 `intfloat/multilingual-e5-large-instruct` 임베딩 모델을 이용하여 1024차원 벡터 생성
+    - 카테고리 추론: Zero-shot Learning 방식으로 뉴스 주제를 자동 분류
+  3. 전처리된 결과를 PostgreSQL에 저장
 
-1. Kafka에서 메시지 수신 (`FlinkKafkaConsumer`)
-2. 수신된 뉴스 본문(`content`)을 기반으로 전처리 수행
-  - 키워드 추출: 본문에서 핵심 키워드 5개 추출
-  - 벡터 임베딩: OpenAI Embedding API를 이용해 1536차원 벡터 생성
-  - 카테고리 추론: Zero-shot Learning 방식으로 뉴스 주제를 자동 분류
-3. 전처리된 결과를 PostgreSQL에 저장
+#### 실행
 
+```bash
+python3 ./transform-and-load/flink.py
+```

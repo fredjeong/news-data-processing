@@ -1,33 +1,24 @@
 import json
-from dotenv import load_dotenv
-import os
 import psycopg2
 from utils_preprocessing import transform_extract_keywords, transform_to_embedding, transform_classify_category
 
+import sys
+from os import path
 
-load_dotenv()
+parent_dir = path.dirname(path.dirname(path.abspath(__file__)))
+sys.path.append(parent_dir)
 
-API_KEY = os.environ.get('OPENAI_API_KEY')
-USERID = os.environ.get('POSTGRESQL_USERID')
-PASSWORD = os.environ.get('POSTGRESQL_PASSWORD')
+from config import DB_CONFIG
+
 # 전처리 및 저장 파이프라인 구성
-"""
-1. 데이터 접수 (json)
-2. 나머지는 다 냅두고, json의 content 항목에 대해서
-    2.1 키워드 추출 (keywords 리스트)
-    2.2 벡터 임베딩 (길이 1536인 리스트)
-    2.3 카테고리 분류 (문자열)
-3. 이렇게 새로 얻은 애들을 json에 추가해야 함
-4. 각 항목을 PostgreSQL에 적재
-"""
 
 # PostgreSQL 데이터베이스 연결 설정
 conn = psycopg2.connect(
-    dbname='news',  # 데이터베이스 이름
-    user=USERID,  # 사용자 이름
-    password=PASSWORD,  # 비밀번호
-    host='localhost',  # 호스트 주소 (여기서는 로컬 호스트)
-    port=5432  # 포트 번호
+    dbname=DB_CONFIG['dbname'],  # 데이터베이스 이름
+    user=DB_CONFIG['user'],  # 사용자 이름
+    password=DB_CONFIG['password'],  # 비밀번호
+    host=DB_CONFIG['host'],  # 호스트 주소 (여기서는 로컬 호스트)
+    port=DB_CONFIG['port']  # 포트 번호
 )
 cursor = conn.cursor()  # 데이터베이스와 상호 작용하기 위한 커서 객체 생성
 
@@ -64,13 +55,13 @@ def add_to_db(data):
     embedding = data['embedding']
 
     query = f"""
-        INSERT INTO news_articles (title, writer, write_date, category, content, url, keywords, embedding)
+        INSERT INTO {DB_CONFIG['table_name']} (title, writer, write_date, category, content, url, keywords, embedding)
         VALUES ('{title}', '{writer}', '{write_date}', '{category}', '{content}', '{url}', '{keywords}', vector({embedding}))
         ON CONFLICT (url) DO NOTHING;
         """
 
     try:
-        # SQL INSERT 구문 실행 (news_article 테이블에 데이터 삽입) 
+        # SQL INSERT 구문 실행 (news_articles 테이블에 데이터 삽입) 
         cursor.execute(query)
 
         # 변경 사항 저장

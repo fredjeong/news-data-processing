@@ -22,33 +22,28 @@ from pyflink.common.serialization import SimpleStringSchema
 # from pyflink.datastream.connectors import FlinkKafkaConsumer
 from pyflink.datastream.connectors.kafka import KafkaSource
 from pyflink.datastream.connectors.kafka import KafkaOffsetsInitializer
-from pyflink.datastream.connectors.jdbc import JdbcSink, JdbcExecutionOptions, JdbcConnectionOptions
-from pyflink.common.typeinfo import Types
 from pyflink.common.watermark_strategy import WatermarkStrategy
 
-import os
-from dotenv import load_dotenv
 import psycopg2
-import datetime
 
 import json
 import utils_pipeline
 
-from sys import path
+import sys
+from os import path
 
-load_dotenv()
+parent_dir = path.dirname(path.dirname(path.abspath(__file__)))
+sys.path.append(parent_dir)
 
-API_KEY = os.environ.get('OPENAI_API_KEY')
-USERID = os.environ.get('POSTGRESQL_USERID')
-PASSWORD = os.environ.get('POSTGRESQL_PASSWORD')
+from config import DB_CONFIG, KAFKA_CONFIG
 
 # PostgreSQL 데이터베이스 연결 설정
 conn = psycopg2.connect(
-    dbname='news',  # 데이터베이스 이름
-    user=USERID,  # 사용자 이름
-    password=PASSWORD,  # 비밀번호
-    host='localhost',  # 호스트 주소 (여기서는 로컬 호스트)
-    port=5432  # 포트 번호
+    dbname=DB_CONFIG['dbname'],  # 데이터베이스 이름
+    user=DB_CONFIG['user'],  # 사용자 이름
+    password=DB_CONFIG['password'],  # 비밀번호
+    host=DB_CONFIG['host'],  # 호스트 주소 (여기서는 로컬 호스트)
+    port=DB_CONFIG['port']  # 포트 번호
 )
 cursor = conn.cursor()  # 데이터베이스와 상호 작용하기 위한 커서 객체 생성
 
@@ -57,29 +52,26 @@ env = StreamExecutionEnvironment.get_execution_environment()
 env.set_parallelism(8)
 
 
-
-
 # Kafka connector JAR 등록
-# parent_dir = path.dirname(path.dirname(path.abspath(__file__)))
-# kafka_connector_path = f"{parent_dir}/flink-sql-connector-kafka-3.3.0-1.20.jar"
-kafka_connector_path = "/Users/fredjeong/Desktop/news/flink-sql-connector-kafka-3.3.0-1.20.jar"
+dir_path = path.dirname(path.dirname(path.abspath(__file__)))
+kafka_connector_path = f"{dir_path}/flink-sql-connector-kafka-3.3.0-1.20.jar"
 env.add_jars(f"file://{kafka_connector_path}")
 
 # Kafka Consumer 설정
 kafka_props = {
-    'bootstrap.servers': 'localhost:9092',
+    'bootstrap.servers': KAFKA_CONFIG['bootstrap_servers'],
     'group.id': 'flink_consumer_group'
 }
 
 consumer = KafkaSource.builder() \
-    .set_bootstrap_servers('localhost:9092') \
-    .set_topics("news-articles") \
+    .set_bootstrap_servers(KAFKA_CONFIG['bootstrap_servers']) \
+    .set_topics(KAFKA_CONFIG['topic']) \
     .set_starting_offsets(KafkaOffsetsInitializer.earliest()) \
     .set_value_only_deserializer(SimpleStringSchema()) \
     .build()
 
 # Kafka에서 메시지 수신
-stream = env.from_source(consumer, WatermarkStrategy.no_watermarks(), "news-articles")
+stream = env.from_source(consumer, WatermarkStrategy.no_watermarks(), KAFKA_CONFIG['topic'])
 
 def find_location(data):
     data_ = json.loads(data)

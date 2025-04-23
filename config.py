@@ -6,6 +6,15 @@ load_dotenv()
 USERID = os.environ.get('POSTGRESQL_USERID')
 PASSWORD = os.environ.get('POSTGRESQL_PASSWORD')
 
+KAFKA_TOPIC_NAME = "news-articles"
+DB_NAME = "news"
+TABLE_NAME = "news_articles"
+EMBEDDING_MODEL = "intfloat/multilingual-e5-large-instruct"
+LLM_MODEL = "gemma3:27b"
+HOST = "localhost"
+POSTGRESQL_PORT = 5432
+KAFKA_PORT = 9092
+
 # 언론사, RSS피드 주소
 RSS_FEEDS = {
     # "조선일보": "https://www.chosun.com/arc/outboundfeeds/rss/category/economy/?outputType=xml",
@@ -16,15 +25,22 @@ RSS_FEEDS = {
 
 # PostgreSQL 서버 접속 정보
 DB_CONFIG = {
-    "dbname": "news",
+    "dbname": DB_NAME,
+    "tablename": TABLE_NAME,
     "user": USERID,
     "password": PASSWORD,
-    "host": "localhost",
-    "port": 5432
+    "host": HOST,
+    "port": POSTGRESQL_PORT
 }
 
 # Kafka 접속 정보
 KAFKA_CONFIG = {
-    "bootstrap_servers": "localhost:9092",
-    "topic": "news-articles"
+    "bootstrap_servers": f"{HOST}:{KAFKA_PORT}",
+    "topic": KAFKA_TOPIC_NAME,
+}
+
+# 임베딩, LLLM 모델
+MODELS_CONFIG = {
+    "embedding_model": EMBEDDING_MODEL,
+    "llm_model": LLM_MODEL
 }

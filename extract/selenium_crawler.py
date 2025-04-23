@@ -18,8 +18,10 @@ def get_content_from_link(url: str) -> str:
         )
         contents = driver.find_elements(By.TAG_NAME, 'p')
         return ''.join(c.text.strip() for c in contents if c.text.strip())
+    
     except Exception as e:
         print(f'[Error] 본문 수집 실패: {e}')
         return ''
+    
     finally:
         driver.quit()
