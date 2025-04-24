@@ -31,6 +31,8 @@
 4 directories, 20 files
  ```
 
+## ETL
+
 ### 0. 최종 목표
 
 ```
@@ -101,3 +103,21 @@ python3 ./extract/main.py
 ```bash
 python3 ./transform-and-load/flink.py
 ```
+
+---
+
+## Backend
+
+- PostgreSQL DB (`news`)와 연동
+
+### News Articles
+
+- 위에서 만든 `news` 데이터베이스의 `news_articles` 테이블과 연동
+
+### Accounts
+
+- 커스텀 유저 모델
+  - email
+  - dateofbirth
+  - 
+  
