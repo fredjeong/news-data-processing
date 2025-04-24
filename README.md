@@ -93,7 +93,7 @@ python3 ./extract/main.py
 
   1. Kafka에서 메시지 수신 (`FlinkKafkaConsumer`)
   2. 수신된 뉴스 본문(`content`)을 기반으로 전처리 수행
-    - 키워드 추출: 오픈소스 모델 `gemma3:27b`를 이용해 본문에서 핵심 키워드 5개 추출
+    - 키워드 추출: 오픈소스 모델 `exaone3.5:2.4b`를 이용해 본문에서 핵심 키워드 5개 추출
     - 벡터 임베딩: Huggingface의 `intfloat/multilingual-e5-large-instruct` 임베딩 모델을 이용하여 1024차원 벡터 생성
     - 카테고리 추론: Zero-shot Learning 방식으로 뉴스 주제를 자동 분류
   3. 전처리된 결과를 PostgreSQL에 저장
@@ -120,4 +120,26 @@ python3 ./transform-and-load/flink.py
   - email
   - dateofbirth
   - 
-  
+
+## AI
+
+### 기사 추천 시스템
+
+- 지금 읽은 기사와 유사한 다른 기사 추천
+- 콘텐츠 기반 필터링(content-based filtering)
+  - 콘텐츠 자체의 특성과 사용자의 이전 행동 기록을 기반으로 사용자에게 추천
+  - 예를 들어, 사용자가 `윤석열`에 대한 기사를 보고 좋아요를 눌렀다면 해당 기사에 대한 분석을 바탕으로 성격이 유사한 다른 기사를 추천함
+- 협업 필터링(collaborative filtering)
+  - 어떤 아이템에 대해서 비슷한 취향을 가진 사람들이 다른 아이템에 대해서도 비슷한 취향을 가지고 있을 것이라고 가정하고 추천하는 알고리즘
+  - 추천의 대상이 되는 사람과 취향이 비슷한 사람들, 즉 neighbour를 찾아 이들이 공통적으로 좋아하는 제품 또는 서비스를 추천 대상인에게 추천하는 것
+
+### 챗봇 기반 기사 찾기
+
+- 특정 키워드를 입력하면 그에 맞는 기사 추천
+
+### RAG
+
+
+## 개발 이슈
+
+- CSRF 토큰 (login 부분)

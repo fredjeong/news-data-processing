@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 
 from .forms import UserCreationForm, UserChangeForm
-from .models import User
+from .models import User, ArticleView, ArticleLike
 
 class UserAdmin(BaseUserAdmin):
     # The forms to add and change user instances
@@ -35,6 +35,8 @@ class UserAdmin(BaseUserAdmin):
 
 # Now register the new UserAdmin...
 admin.site.register(User, UserAdmin)
+admin.site.register(ArticleView)
+admin.site.register(ArticleLike)
 # ... and, since we're not using Django's built-in permissions,
 # unregister the Group model from admin.
 admin.site.unregister(Group)

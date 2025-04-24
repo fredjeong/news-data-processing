@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.utils import timezone
+from articles.models import NewsArticle
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -71,3 +73,33 @@ class User(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+class ArticleView(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='article_views')
+    article = models.ForeignKey(NewsArticle, on_delete=models.CASCADE, related_name='views')
+    viewed_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('user', 'article')
+        indexes = [
+            models.Index(fields=['user', 'viewed_at']),
+            models.Index(fields=['article', 'viewed_at']),
+        ]
+
+    def __str__(self):
+        return f"{self.user.email} viewed {self.article.title}"
+
+class ArticleLike(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='article_likes')
+    article = models.ForeignKey(NewsArticle, on_delete=models.CASCADE, related_name='likes')
+    liked_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('user', 'article')
+        indexes = [
+            models.Index(fields=['user', 'liked_at']),
+            models.Index(fields=['article', 'liked_at']),
+        ]
+
+    def __str__(self):
+        return f"{self.user.email} liked {self.article.title}"
