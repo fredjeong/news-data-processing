@@ -1,18 +1,90 @@
 .
 ├── README.md
 ├── __init__.py
+├── __pycache__
+│   └── config.cpython-310.pyc
 ├── architecture.txt
 ├── backend
+│   ├── accounts
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-310.pyc
+│   │   │   ├── admin.cpython-310.pyc
+│   │   │   ├── apps.cpython-310.pyc
+│   │   │   ├── forms.cpython-310.pyc
+│   │   │   ├── models.cpython-310.pyc
+│   │   │   ├── serializers.cpython-310.pyc
+│   │   │   ├── urls.cpython-310.pyc
+│   │   │   └── views.cpython-310.pyc
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── forms.py
+│   │   ├── migrations
+│   │   │   ├── 0001_initial.py
+│   │   │   ├── __init__.py
+│   │   │   └── __pycache__
+│   │   │       ├── 0001_initial.cpython-310.pyc
+│   │   │       └── __init__.cpython-310.pyc
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── signals.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
 │   ├── articles
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-310.pyc
+│   │   │   ├── admin.cpython-310.pyc
+│   │   │   ├── apps.cpython-310.pyc
+│   │   │   ├── models.cpython-310.pyc
+│   │   │   ├── serializers.cpython-310.pyc
+│   │   │   ├── urls.cpython-310.pyc
+│   │   │   └── views.cpython-310.pyc
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── migrations
+│   │   │   ├── 0001_initial.py
+│   │   │   ├── __init__.py
+│   │   │   └── __pycache__
+│   │   │       ├── 0001_initial.cpython-310.pyc
+│   │   │       └── __init__.cpython-310.pyc
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
 │   ├── config
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-310.pyc
+│   │   │   ├── settings.cpython-310.pyc
+│   │   │   ├── urls.cpython-310.pyc
+│   │   │   └── wsgi.cpython-310.pyc
+│   │   ├── asgi.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
 │   ├── manage.py
 │   └── models.py
 ├── config.py
-├── extract
-│   ├── kafka_producer.py
-│   ├── main.py
-│   ├── rss_reader.py
-│   └── selenium_crawler.py
+├── data-engineering
+│   ├── extract
+│   │   ├── __pycache__
+│   │   │   ├── kafka_producer.cpython-310.pyc
+│   │   │   ├── rss_reader.cpython-310.pyc
+│   │   │   └── selenium_crawler.cpython-310.pyc
+│   │   ├── kafka_producer.py
+│   │   ├── main.py
+│   │   ├── rss_reader.py
+│   │   └── selenium_crawler.py
+│   └── transform-and-load
+│       ├── __pycache__
+│       │   ├── utils_pipeline.cpython-310.pyc
+│       │   └── utils_preprocessing.cpython-310.pyc
+│       ├── flink.py
+│       ├── utils_pipeline.py
+│       └── utils_preprocessing.py
 ├── flink-sql-connector-kafka-3.3.0-1.20.jar
 ├── install-guide
 │   ├── django-install.md
@@ -23,8 +95,6 @@
 │   ├── ollama-install.md
 │   ├── postgresql-install.md
 │   └── spark-install.md
-├── requirements.txt
-└── transform-and-load
-    ├── flink.py
-    ├── utils_pipeline.py
-    └── utils_preprocessing.py
+└── requirements.txt
+
+19 directories, 79 files

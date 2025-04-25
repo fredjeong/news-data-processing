@@ -4,7 +4,7 @@ from selenium_crawler import get_content_from_link
 import sys
 from os import path
 
-parent_dir = path.dirname(path.dirname(path.abspath(__file__)))
+parent_dir = path.dirname(path.dirname(path.dirname(path.abspath(__file__))))
 sys.path.append(parent_dir)
 
 from config import KAFKA_CONFIG

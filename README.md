@@ -1,6 +1,6 @@
 # 뉴스 데이터 파이프라인 구축 프로젝트
 
-### 프로젝트 구조
+## 프로젝트 전체 구조
 
 ```
 .
@@ -8,34 +8,29 @@
 ├── __init__.py
 ├── architecture.txt
 ├── backend
-│   ├── articles
-│   ├── config
-│   ├── manage.py
-│   └── models.py
 ├── config.py
+├── data-engineering
+├── flink-sql-connector-kafka-3.3.0-1.20.jar
+├── install-guide
+└── requirements.txt
+ ```
+
+## Data Engineering
+
+### 구조
+
+```
+.
 ├── extract
 │   ├── kafka_producer.py
 │   ├── main.py
 │   ├── rss_reader.py
 │   └── selenium_crawler.py
-├── flink-sql-connector-kafka-3.3.0-1.20.jar
-├── install-guide
-│   ├── django-install.md
-│   ├── docker-install.md
-│   ├── flink-install.md
-│   ├── java-install.md
-│   ├── kafka-install.md
-│   ├── ollama-install.md
-│   ├── postgresql-install.md
-│   └── spark-install.md
-├── requirements.txt
 └── transform-and-load
     ├── flink.py
     ├── utils_pipeline.py
     └── utils_preprocessing.py
- ```
-
-## ETL
+```
 
 ### 0. 최종 목표
 
@@ -118,6 +113,46 @@ python3 ./transform-and-load/flink.py
 ---
 
 ## Backend
+
+### 구조
+
+```
+.
+├── accounts
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── serializers.py
+│   ├── signals.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── articles
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   │   ├── 0001_initial.py
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── serializers.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── config
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── manage.py
+└── models.py
+```
 
 - PostgreSQL DB (`news`)와 연동
 
