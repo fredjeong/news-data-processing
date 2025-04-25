@@ -74,6 +74,7 @@ CREATE TABLE news_articles (
     write_date TIMESTAMP NOT NULL,
     category VARCHAR(50) NOT NULL,
     content TEXT NOT NULL,
+    summary TEXT NOT NULL,
     url VARCHAR(200) UNIQUE NOT NULL,
     keywords JSON DEFAULT '[]'::json,
     embedding VECTOR(1024) NOT NULL

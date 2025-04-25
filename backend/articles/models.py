@@ -12,6 +12,7 @@ class NewsArticle(models.Model):
     url = models.CharField(max_length=200)
     keywords = models.CharField(max_length=200)
     embedding = VectorField(dimensions=1024)
+    summary = models.TextField()
 
     class Meta:
         db_table = 'news_articles'

@@ -59,7 +59,33 @@ def transform_extract_keywords(text):
         }
     ])
     keywords = response['message']['content']
-    return keywords.split(', ')
+    return list(map(lambda x: x.strip('**').strip(), keywords.split(',')))
+
+
+def transform_extract_summary(text):
+    """
+    텍스트 데이터 변환 - 요약 추출
+    입력 텍스트에서 핵심 내용을 추출하는 변환 로직
+    """
+    text = preprocess_content(text)
+    
+    response = ollama.chat(model=MODELS_CONFIG['llm_model'], messages = [
+        {
+            'role': 'system',
+            'content': """You are the greatest journalist the world has ever seen. \
+                    Your task now is to summarise news articles. \
+                    When given text, summarise the article in 100 words or less. \
+                    Make sure your response is concise and to the point. \
+                    Also, your summary should be in Korean.
+                    """ 
+        },
+        {
+            'role': 'user',
+            'content': text
+        }
+    ])
+    summary = response['message']['content']
+    return summary
 
 embeddings = HuggingFaceEmbeddings(
     model_name=MODELS_CONFIG['embedding_model'],

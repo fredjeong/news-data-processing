@@ -1,6 +1,6 @@
 import json
 import psycopg2
-from utils_preprocessing import transform_extract_keywords, transform_to_embedding, transform_classify_category
+from utils_preprocessing import transform_extract_keywords, transform_to_embedding, transform_classify_category, transform_extract_summary
 
 import sys
 from os import path
@@ -34,12 +34,14 @@ def preprocess(data):
         embedding_str = ','.join(map(str, embedding))
         data['embedding'] = f"'[{embedding_str}]'"
         data['category'] = '미분류'
+        data['summary'] = ''
     else:
         data['keywords'] = json.dumps(transform_extract_keywords(content), ensure_ascii=False)
         embedding = transform_to_embedding(content)
         embedding_str = ','.join(map(str, embedding))
         data['embedding'] = f"'[{embedding_str}]'"
         data['category'] = transform_classify_category(content)
+        data['summary'] = transform_extract_summary(content)
     
     return data
 
@@ -52,11 +54,12 @@ def add_to_db(data):
     content = data['content']
     url = data['url']
     keywords = data['keywords']
+    summary = data['summary']
     embedding = data['embedding']
 
     query = f"""
-        INSERT INTO {DB_CONFIG['tablename']} (title, writer, write_date, category, content, url, keywords, embedding)
-        VALUES ('{title}', '{writer}', '{write_date}', '{category}', '{content}', '{url}', '{keywords}', vector({embedding}))
+        INSERT INTO {DB_CONFIG['tablename']} (title, writer, write_date, category, content, summary, url, keywords, embedding)
+        VALUES ('{title}', '{writer}', '{write_date}', '{category}', '{content}', '{summary}', '{url}', '{keywords}', vector({embedding}))
         ON CONFLICT (url) DO NOTHING;
         """
 

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, AbstractUser
 from django.utils import timezone
 from articles.models import NewsArticle
 
@@ -24,23 +24,28 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, password=None):
+    def create_superuser(self, email, date_of_birth, first_name, last_name, password=None):
         """
-        Creates and saves a superuser with the given email, date of
-        birth and password.
+        Creates and saves a superuser with the given email and password.
         """
         user = self.create_user(
-            username,
+            email=email,
+            date_of_birth=date_of_birth,
+            first_name=first_name,
+            last_name=last_name,
             password=password,
         )
         user.is_admin = True
         user.save(using=self._db)
         return user
 
+# class User(AbstractUser):
+#     pass
 
 class User(AbstractBaseUser):
+    # username = None
     email = models.EmailField(
-        verbose_name='email address',
+        # verbose_name='이메일',
         max_length=255,
         unique=True,
     )
