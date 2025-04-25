@@ -36,7 +36,7 @@
 ### 가상환경에 Django 및 DRF(Django Rest Framework) 설치
 
 ```bash
-pip install django djangorestframework
+pip3 install django djangorestframework
 ```
 
 ### Django 프로젝트 생성 및 실행
@@ -59,20 +59,20 @@ INSTALLED_APPS = [
 3. Migration 수행
 
 ```bash
-python manage.py makemigrations
-python manage.py migrate
+python3 manage.py makemigrations
+python3 manage.py migrate
 ```
 
 4. admin 계정 생성
 
 ```bash
-python manage.py createsuperuser
+python3 manage.py createsuperuser
 ```
 
 4. 서버 실행
 
 ```bash
-python manage.py runserver
+python3 manage.py runserver
 ```
 
 5. 서버 확인

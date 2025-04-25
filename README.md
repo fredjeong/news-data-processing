@@ -105,7 +105,7 @@ $KAFKA_HOME/bin/kafka-topics.sh --create --topic news-articles --partitions 8 --
 3. Kafka Producer 실행
 
 ```bash
-python3 ./extract/main.py
+python3 ./data-engineering/extract/main.py
 ```
 
 ### 2.5 Flink 기반 실시간 뉴스 처리
@@ -129,7 +129,7 @@ python3 ./extract/main.py
 #### 2.5.3 실행
 
 ```bash
-python3 ./transform-and-load/flink.py
+python3 ./data-engineering/transform-and-load/flink.py
 ```
 
 ---
