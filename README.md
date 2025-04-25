@@ -93,6 +93,10 @@ python3 ./extract/main.py
 
 ### 3. Flink 기반 실시간 뉴스 처리
 
+#### 사전 작업
+
+- 디렉토리 최상단에 .env 파일 만들어서 PostgreSQL의 `USERNAME`과 `PASSWORD` 정의
+
 #### 목표
 
 - Kafka로부터 전송된 뉴스 데이터를 Flink에서 소비(consume)하고, 이를 전처리하여 PostgreSQL에 저장하는 실시간 데이터 처리 환경 구성
@@ -100,6 +104,7 @@ python3 ./extract/main.py
   1. Kafka에서 메시지 수신 (`FlinkKafkaConsumer`)
   2. 수신된 뉴스 본문(`content`)을 기반으로 전처리 수행
     - 키워드 추출: 오픈소스 모델 `exaone3.5:2.4b`를 이용해 본문에서 핵심 키워드 5개 추출
+    - 기사 요약: 동일 모델로 기사 본문 내용 100자 이하 텍스트로 요약
     - 벡터 임베딩: Huggingface의 `intfloat/multilingual-e5-large-instruct` 임베딩 모델을 이용하여 1024차원 벡터 생성
     - 카테고리 추론: Zero-shot Learning 방식으로 뉴스 주제를 자동 분류
   3. 전처리된 결과를 PostgreSQL에 저장
@@ -118,14 +123,14 @@ python3 ./transform-and-load/flink.py
 
 ### News Articles
 
-- 위에서 만든 `news` 데이터베이스의 `news_articles` 테이블과 연동
+- 기존에 만든 `news` 데이터베이스의 `news_articles` 테이블과 `articles` 앱의 `NewsArticle` 모델 연동
 
 ### Accounts
 
-- 커스텀 유저 모델
-  - email
-  - dateofbirth
-  - 
+- `BaseUserManager`, `AbstractBaseUser`를 활용하여 커스텀 유저 모델 제작
+  - `username`에 비해 범용성이 더 높은 `email` 기반 로그인
+  - 소셜 로그인 연동하여 향후 Google, Naver, Kakao 등 계정으로 로그인할 수 있도록 함
+  - 토큰 기반 인증을 바탕으로 보안성 향상
 
 ## AI
 
@@ -144,8 +149,3 @@ python3 ./transform-and-load/flink.py
 - 특정 키워드를 입력하면 그에 맞는 기사 추천
 
 ### RAG
-
-
-## 개발 이슈
-
-- CSRF 토큰 (login 부분)

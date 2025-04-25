@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, AbstractUser
-from django.utils import timezone
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from articles.models import NewsArticle
 
 # Create your models here.
@@ -39,13 +38,8 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-# class User(AbstractUser):
-#     pass
-
 class User(AbstractBaseUser):
-    # username = None
     email = models.EmailField(
-        # verbose_name='이메일',
         max_length=255,
         unique=True,
     )
