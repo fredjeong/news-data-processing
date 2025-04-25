@@ -1,6 +1,12 @@
 .
+├── README.md
 ├── __init__.py
 ├── architecture.txt
+├── backend
+│   ├── articles
+│   ├── config
+│   ├── manage.py
+│   └── models.py
 ├── config.py
 ├── extract
 │   ├── kafka_producer.py
@@ -9,6 +15,7 @@
 │   └── selenium_crawler.py
 ├── flink-sql-connector-kafka-3.3.0-1.20.jar
 ├── install-guide
+│   ├── django-install.md
 │   ├── docker-install.md
 │   ├── flink-install.md
 │   ├── java-install.md
@@ -16,11 +23,8 @@
 │   ├── ollama-install.md
 │   ├── postgresql-install.md
 │   └── spark-install.md
-├── README.md
 ├── requirements.txt
 └── transform-and-load
     ├── flink.py
     ├── utils_pipeline.py
     └── utils_preprocessing.py
-
-4 directories, 20 files
