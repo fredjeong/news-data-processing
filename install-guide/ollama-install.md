@@ -8,8 +8,8 @@
 ollama
 ```
 
-3. `gemma3:27b` 모델 다운
+3. `exaone3.5:2.4b` 모델 다운
 
 ```bash
-ollama run gemma3:27b
+ollama run exaone3.5:2.4b
 ```

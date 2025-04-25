@@ -57,6 +57,8 @@
 - [Flink](./install-guide/flink-install.md)
 - [Spark](./install-guide/spark-install.md)
 - [PostgreSQL](./install-guide/postgresql-install.md)
+- [Ollama](./install-guide/ollama-install.md)
+- [Django](./install-guide/django-install.md)
 
 ### 2. RSS 토픽과 연결
 

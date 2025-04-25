@@ -44,7 +44,7 @@ pip install django djangorestframework
 1. 프로젝트 생성
 
 ```bash
-django-admin startproject news_pipeline
+django-admin startproject backend
 ```
 
 2. `settings.py` 수정
@@ -79,10 +79,3 @@ python manage.py runserver
 
 - http://127.0.0.1:8000/ 접속 후 확인
 - http://127.0.0.1:8000/admin 접속 후 확인
-
-### 앱 생성
-
-```bash
-python manage.py startapp articles
-```
-

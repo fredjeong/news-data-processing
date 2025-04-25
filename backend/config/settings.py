@@ -12,8 +12,13 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+import sys
+from os import path
+
+parent_dir = path.dirname(path.dirname(path.abspath(__file__)))
+sys.path.append(parent_dir)
+
+from config import DB_CONFIG
 
 
 # Quick-start development settings - unsuitable for production
@@ -87,14 +92,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'news',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '5432', 
+        'NAME': DB_CONFIG['dbname'],
+        'USER': DB_CONFIG['user'],
+        'PASSWORD': DB_CONFIG['password'],
+        'HOST': DB_CONFIG['host'],
+        'PORT': DB_CONFIG['port'], 
     }
 }
 

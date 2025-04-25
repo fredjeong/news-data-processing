@@ -57,11 +57,21 @@ def add_to_db(data):
     summary = data['summary']
     embedding = data['embedding']
 
-    query = f"""
-        INSERT INTO {DB_CONFIG['tablename']} (title, writer, write_date, category, content, summary, url, keywords, embedding)
-        VALUES ('{title}', '{writer}', '{write_date}', '{category}', '{content}', '{summary}', '{url}', '{keywords}', vector({embedding}))
+
+    # Use psycopg2's mogrify to properly escape special characters
+    query = cursor.mogrify(f"""
+        INSERT INTO {DB_CONFIG['tablename']} (title, writer, write_date, category, content, summary, url, keywords, embedding) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, vector(%s))
         ON CONFLICT (url) DO NOTHING;
-        """
+        """, 
+        (title, writer, write_date, category, content, summary, url, keywords, embedding)
+    ).decode()
+
+    # query = f"""
+    #     INSERT INTO {DB_CONFIG['tablename']} (title, writer, write_date, category, content, summary, url, keywords, embedding)
+    #     VALUES ('{title}', '{writer}', '{write_date}', '{category}', '{content}', '{summary}', '{url}', '{keywords}', vector({embedding}))
+    #     ON CONFLICT (url) DO NOTHING;
+    #     """
 
     try:
         # SQL INSERT 구문 실행 (news_articles 테이블에 데이터 삽입) 
