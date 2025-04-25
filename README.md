@@ -1,6 +1,28 @@
 # 뉴스 데이터 파이프라인 구축 프로젝트
 
-## 프로젝트 전체 구조
+- [뉴스 데이터 파이프라인 구축 프로젝트](#뉴스-데이터-파이프라인-구축-프로젝트)
+  * [1. 프로젝트 전체 구조](#1-프로젝트-전체-구조)
+  * [2. Data Engineering](#2-data-engineering)
+    + [2.1 구조](#22-최종-목표)
+    + [2.2 최종 목표](#22-최종-목표)
+    + [2.3 환경 설정](#23-환경-설정)
+    + [2.4 RSS 토픽과 연결](#24-rss-토픽과-연결)
+      - [2.4.1 목표](#241-목표)
+      - [2.4.2 단계](#242-단계)
+    + [2.5 Flink 기반 실시간 뉴스 처리](#25-flink-기반-실시간-뉴스-처리)
+      - [2.5.1 사전 작업](#251-사전-작업)
+      - [2.5.2 목표](#252-목표)
+      - [2.5.3 실행](#253-실행)
+  * [3. Backend](#3-backend)
+    + [3.1 구조](#31-구조)
+    + [3.2 News Articles](#32-news-articles)
+    + [3.3 Accounts](#33-accounts)
+  * [4. AI](#4-ai)
+    + [4.1 기사 추천 시스템](#41-기사-추천-시스템)
+    + [4.2 챗봇 기반 기사 찾기](#42-챗봇-기반-기사-찾기)
+    + [4.3 RAG](#43-rag)
+
+## 1. 프로젝트 전체 구조
 
 ```
 .
@@ -15,9 +37,9 @@
 └── requirements.txt
  ```
 
-## Data Engineering
+## 2. Data Engineering
 
-### 구조
+### 2.1 구조
 
 ```
 .
@@ -32,7 +54,7 @@
     └── utils_preprocessing.py
 ```
 
-### 0. 최종 목표
+### 2.2 최종 목표
 
 ```
   [Extract]                    [Transform]            [Load]
@@ -48,7 +70,7 @@
 
 - 이후 상기 과정 AirFlow 이용하여 자동화
 
-### 1. 환경 설정
+### 2.3 환경 설정
 
 - [Docker](./install-guide/docker-install.md)
 - [Java](./install-guide/java-install.md)
@@ -59,16 +81,16 @@
 - [Ollama](./install-guide/ollama-install.md)
 - [Django](./install-guide/django-install.md)
 
-### 2. RSS 토픽과 연결
+### 2.4 RSS 토픽과 연결
 
-#### 목표
+#### 2.4.1 목표
 
 - RSS 피드를 주기적으로 파싱하고 해당 내용을 Kafka 토픽으로 전송하는 Producer를 구현
   - RSS 피드에서 최신 뉴스 항목 수집
   - 뉴스 본문을 크롤링하여 Kafka 토픽으로 전송
   - JSON 형식으로 Kafka에 직렬화하여 전송 
 
-#### 단계
+#### 2.4.2 단계
 
 1. Zookeeper 및 Kafka 실행
 
@@ -86,13 +108,13 @@ $KAFKA_HOME/bin/kafka-topics.sh --create --topic news-articles --partitions 8 --
 python3 ./extract/main.py
 ```
 
-### 3. Flink 기반 실시간 뉴스 처리
+### 2.5 Flink 기반 실시간 뉴스 처리
 
-#### 사전 작업
+#### 2.5.1 사전 작업
 
 - 디렉토리 최상단에 .env 파일 만들어서 PostgreSQL의 `USERNAME`과 `PASSWORD` 정의
 
-#### 목표
+#### 2.5.2 목표
 
 - Kafka로부터 전송된 뉴스 데이터를 Flink에서 소비(consume)하고, 이를 전처리하여 PostgreSQL에 저장하는 실시간 데이터 처리 환경 구성
 
@@ -104,7 +126,7 @@ python3 ./extract/main.py
     - 카테고리 추론: Zero-shot Learning 방식으로 뉴스 주제를 자동 분류
   3. 전처리된 결과를 PostgreSQL에 저장
 
-#### 실행
+#### 2.5.3 실행
 
 ```bash
 python3 ./transform-and-load/flink.py
@@ -112,9 +134,9 @@ python3 ./transform-and-load/flink.py
 
 ---
 
-## Backend
+## 3. Backend
 
-### 구조
+### 3.1 구조
 
 ```
 .
@@ -156,20 +178,20 @@ python3 ./transform-and-load/flink.py
 
 - PostgreSQL DB (`news`)와 연동
 
-### News Articles
+### 3.2 News Articles
 
 - 기존에 만든 `news` 데이터베이스의 `news_articles` 테이블과 `articles` 앱의 `NewsArticle` 모델 연동
 
-### Accounts
+### 3.3 Accounts
 
 - `BaseUserManager`, `AbstractBaseUser`를 활용하여 커스텀 유저 모델 제작
   - `username`에 비해 범용성이 더 높은 `email` 기반 로그인
   - 소셜 로그인 연동하여 향후 Google, Naver, Kakao 등 계정으로 로그인할 수 있도록 함
   - 토큰 기반 인증을 바탕으로 보안성 향상
 
-## AI
+## 4. AI
 
-### 기사 추천 시스템
+### 4.1 기사 추천 시스템
 
 - 지금 읽은 기사와 유사한 다른 기사 추천
 - 콘텐츠 기반 필터링(content-based filtering)
@@ -179,8 +201,8 @@ python3 ./transform-and-load/flink.py
   - 어떤 아이템에 대해서 비슷한 취향을 가진 사람들이 다른 아이템에 대해서도 비슷한 취향을 가지고 있을 것이라고 가정하고 추천하는 알고리즘
   - 추천의 대상이 되는 사람과 취향이 비슷한 사람들, 즉 neighbour를 찾아 이들이 공통적으로 좋아하는 제품 또는 서비스를 추천 대상인에게 추천하는 것
 
-### 챗봇 기반 기사 찾기
+### 4.2 챗봇 기반 기사 찾기
 
 - 특정 키워드를 입력하면 그에 맞는 기사 추천
 
-### RAG
+### 4.3 RAG
