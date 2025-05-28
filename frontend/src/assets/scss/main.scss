@@ -1,0 +1,40 @@
+@use "./reset.scss";
+@use "./variable.scss";
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+#app {
+  font-weight: normal;
+  color: #1a1a1a;
+  font-family: "Pretendard";
+  font-size: 14px;
+  width: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--c-bg);
+}
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  font-weight: normal;
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.no-data {
+  text-align: center;
+  color: #888;
+  font-size: 16px;
+  padding: 100px;
+}

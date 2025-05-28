@@ -1,0 +1,109 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=news_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - elastic
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d news_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.1
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=elastic-docker-cluster
+      - discovery.seed_hosts=es01
+      - cluster.initial_master_nodes=es01
+      - node.roles=master,data,ingest
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+      - network.host=0.0.0.0
+    volumes:
+      - ./config/dictionary:/usr/share/elasticsearch/config/dictionary
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - elastic
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: >
+      sh -c "
+      if [ ! -d /usr/share/elasticsearch/plugins/analysis-nori ]; then
+        elasticsearch-plugin install analysis-nori --batch;
+      fi &&
+      exec /usr/local/bin/docker-entrypoint.sh elasticsearch"
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.17.1
+    container_name: logstash
+    depends_on:
+      es01:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+      - ./logstash/config:/usr/share/logstash/config
+    networks:
+      - elastic
+    command: >
+      sh -c '
+      if [ ! -f /usr/share/logstash/postgresql.jar ]; then
+        curl -L -o /usr/share/logstash/postgresql.jar https://jdbc.postgresql.org/download/postgresql-42.5.0.jar;
+      fi &&
+      /usr/share/logstash/bin/logstash -f /usr/share/logstash/pipeline/postgres-to-elasticsearch.conf'
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.17.1
+    container_name: kibana
+    depends_on:
+      es01:
+        condition: service_healthy
+    environment:
+      - SERVER_NAME=kibana
+      - ELASTICSEARCH_HOSTS=http://es01:9200
+      - XPACK_ALERTING_ENABLED=false
+      - XPACK_ACTIONS_ENABLED=false
+      - XPACK_RULE_REGISTRY_WRITE_ENABLED=false
+      - TELEMETRY_ENABLED=false
+      - XPACK_SECURITY_SOLUTION_ENABLED=false
+      - XPACK_INFRA_ENABLED=false
+      - XPACK_LOGS_ENABLED=false
+      - XPACK_ALERTING_ENABLED=false
+      - XPACK_APM_ENABLED=false
+      - XPACK_FLEET_ENABLED=false
+      - XPACK_SECURITY_SOLUTION_ENABLED=false
+      - XPACK_OBSERVABILITY_ENABLED=false
+      - XPACK_REPORTING_ENABLED=false
+      - XPACK_ML_ENABLED=false
+      - TELEMETRY_ENABLED=false
+      - MONITORING_ENABLED=false
+    ports:
+      - 5601:5601
+    networks:
+      - elastic
+
+networks:
+  elastic:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  elasticsearch_data:

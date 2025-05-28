@@ -1,0 +1,33 @@
+{
+  "name": "ssafy",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "chart.js": "^4.4.5",
+    "pinia": "^2.2.4",
+    "pinia-plugin-persistedstate": "^4.1.2",
+    "svg-loader": "^0.0.2",
+    "vue": "^3.5.12",
+    "vue-chartjs": "^5.3.1",
+    "vue-router": "^4.4.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.4",
+    "@vitejs/plugin-vue-jsx": "^4.0.1",
+    "npm-run-all2": "^7.0.1",
+    "sass-embedded": "^1.80.4",
+    "unplugin-auto-import": "^0.18.3",
+    "unplugin-vue-components": "^0.27.4",
+    "vite": "^5.4.18",
+    "vite-plugin-vue-devtools": "^7.5.4",
+    "vite-svg-loader": "^5.1.0"
+  }
+}

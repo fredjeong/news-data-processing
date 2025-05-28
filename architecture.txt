@@ -1,0 +1,161 @@
+.
+├── README.md
+├── __init__.py
+├── airflow
+│   ├── Dockerfile.airflow
+│   ├── Dockerfile.spark
+│   ├── dags
+│   │   ├── daily_report_dag.py
+│   │   └── scripts
+│   │       ├── main_flink.py
+│   │       ├── main_kafka.py
+│   │       ├── spark_daily_report.py
+│   │       └── spark_test.py
+│   ├── data
+│   │   ├── archive
+│   │   └── realtime
+│   ├── docker-compose-airflow.yaml
+│   └── setup.sh
+├── architecture.txt
+├── backend
+│   ├── README.md
+│   ├── accounts
+│   │   ├── __init__.py
+│   │   ├── adapter.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── migrations
+│   │   │   └── __init__.py
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── articles
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── management
+│   │   │   └── commands
+│   │   │       └── generate_dummy_articles.py
+│   │   ├── migrations
+│   │   │   └── __init__.py
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── chatbot
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── migrations
+│   │   │   └── __init__.py
+│   │   ├── models.py
+│   │   ├── serializers.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── config
+│   │   ├── __init__.py
+│   │   ├── asgi.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
+│   ├── manage.py
+│   └── utils.py
+├── config
+│   └── dictionary
+├── config.py
+├── data
+│   └── ssafy_dataset_news_2024_1st_half.csv
+├── delete_elasticsearch_index.py
+├── docker-compose.yml
+├── flink-sql-connector-kafka-3.3.0-1.20.jar
+├── frontend
+│   ├── README.md
+│   ├── index.html
+│   ├── jsconfig.json
+│   ├── node_modules
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public
+│   │   └── favicon.ico
+│   ├── src
+│   │   ├── App.vue
+│   │   ├── assets
+│   │   │   ├── data
+│   │   │   │   └── tabs.js
+│   │   │   ├── fonts.css
+│   │   │   ├── logo.svg
+│   │   │   └── scss
+│   │   │       ├── main.scss
+│   │   │       ├── reset.scss
+│   │   │       └── variable.scss
+│   │   ├── common
+│   │   │   ├── ContentBox.vue
+│   │   │   ├── PaginationButton.vue
+│   │   │   ├── StateButton.vue
+│   │   │   └── TheInput.vue
+│   │   ├── components
+│   │   │   ├── ArticlePreview.vue
+│   │   │   ├── ArticlePreview2.vue
+│   │   │   ├── ArticleRecommendations.vue
+│   │   │   ├── BoardCard.vue
+│   │   │   ├── CommentBox.vue
+│   │   │   ├── NewsCard.vue
+│   │   │   ├── TheFooter.vue
+│   │   │   ├── TheHeader.vue
+│   │   │   ├── UserRecommendations.vue
+│   │   │   └── icon
+│   │   │       └── LeftArrow.svg
+│   │   ├── composables
+│   │   │   ├── useDate.js
+│   │   │   └── useValidation.js
+│   │   ├── main.js
+│   │   ├── router
+│   │   │   └── index.js
+│   │   ├── utils
+│   │   │   ├── api.js
+│   │   │   └── axios.js
+│   │   └── views
+│   │       ├── DashBoardView.vue
+│   │       ├── LoginView.vue
+│   │       ├── NewsDetailView.vue
+│   │       ├── NewsView.vue
+│   │       ├── NotFoundView.vue
+│   │       ├── RegisterView.vue
+│   │       └── SearchResultView.vue
+│   └── vite.config.js
+├── install-guide
+│   ├── airflow-install.md
+│   ├── django-install.md
+│   ├── docker-install.md
+│   ├── elasticsearch-install.md
+│   ├── flink-install.md
+│   ├── java-install.md
+│   ├── kafka-install.md
+│   ├── ollama-install.md
+│   ├── postgresql-install.md
+│   └── spark-install.md
+├── logstash
+│   ├── config
+│   │   └── logstash.yml
+│   └── pipeline
+│       └── postgres-to-elasticsearch.conf
+├── main
+│   ├── elasticsearch.md
+│   ├── main_flink.py
+│   ├── main_kafka.py
+│   └── main_kafka_csv.py
+├── package-lock.json
+├── requirements-mac.txt
+├── requirements-win.txt
+└── utils
+    ├── get_bulk_news.py
+    ├── kafka_producer.py
+    ├── rss_reader.py
+    ├── selenium_crawler.py
+    ├── utils_elasticsearch.py
+    ├── utils_pipeline.py
+    └── utils_preprocessing.py
